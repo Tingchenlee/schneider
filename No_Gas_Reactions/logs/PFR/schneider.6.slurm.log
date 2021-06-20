@@ -1,0 +1,8 @@
+WARNING:root:Saving results in /work/westgroup/lee.ting/cantera/schneider/No_Gas_Reactions/results/PFR/2021_6_16_232_27a89a_13_reactions/IdealGasReactor/energy_off/sensitivity_off/results, the file's name is _temp_600_O2_88_NH3_0.csv
+Error: /work/westgroup/lee.ting/cantera/schneider/No_Gas_Reactions/results/PFR/2021_6_16_232_27a89a_13_reactions/IdealGasReactor/energy_off/sensitivity_off/flux_diagrams/0/0/reaction_path_H_surface1_beginning-pretty.dot: syntax error in line 15 near '}'
+Error: /work/westgroup/lee.ting/cantera/schneider/No_Gas_Reactions/results/PFR/2021_6_16_232_27a89a_13_reactions/IdealGasReactor/energy_off/sensitivity_off/flux_diagrams/0/0/reaction_path_H_surface1_beginning.dot: syntax error in line 15 near '}'
+Error: /work/westgroup/lee.ting/cantera/schneider/No_Gas_Reactions/results/PFR/2021_6_16_232_27a89a_13_reactions/IdealGasReactor/energy_off/sensitivity_off/flux_diagrams/0/0/reaction_path_O_surface1_beginning-pretty.dot: syntax error in line 14 near '}'
+Error: /work/westgroup/lee.ting/cantera/schneider/No_Gas_Reactions/results/PFR/2021_6_16_232_27a89a_13_reactions/IdealGasReactor/energy_off/sensitivity_off/flux_diagrams/0/0/reaction_path_O_surface1_beginning.dot: syntax error in line 14 near '}'
+WARNING:root:Couldn't reach 1e+02 s so going to try 1 s
+WARNING:root:Couldn't reach 1e+02 s so going to try 1 s
+WARNING:root:Couldn't reach 1e+02 s so going to try 1 s

@@ -1,0 +1,11 @@
+WARNING:root:Saving results in /work/westgroup/lee.ting/cantera/schneider/No_Gas_Reactions/results/Pt111/temp/2021_6_20_1641_48b767_schneider_26rxn_nogasrxn/IdealGasReactor/energy_off/sensitivity_off/results, the file's name is _temp_850_O2_0_02_NH3_0_001.csv
+Traceback (most recent call last):
+  File "CSTR_script_temp.py", line 591, in <module>
+    reactime=reactime,
+  File "CSTR_script_temp.py", line 462, in run_reactor
+    save_flux_diagrams(gas, suffix=flux_path, timepoint="beginning", species_path=species_path)
+  File "CSTR_script_temp.py", line 157, in save_flux_diagrams
+    prettydot(species_path, dot_file, strip_line_labels=False)
+  File "CSTR_script_temp.py", line 73, in prettydot
+    raise ValueError("{0} - not a digraph".format(filepath))
+ValueError: /work/westgroup/lee.ting/cantera/schneider/No_Gas_Reactions/results/Pt111/temp/2021_6_20_1641_48b767_schneider_26rxn_nogasrxn/IdealGasReactor/energy_off/sensitivity_off/flux_diagrams/reaction_path_C_gas_beginning.dot - not a digraph
