@@ -319,17 +319,17 @@ def run_reactor(
     cat_area_str = "%s" % "%.3g" % cat_area
     species_path = (
         os.path.dirname(os.path.abspath(__file__))
-        + f"/resluts/Pt111/temp/{git_file_string}/species_pictures"
+        + f"/results/Pt111/temp/{git_file_string}/species_pictures"
     )
     print(species_path)
     results_path = (
         os.path.dirname(os.path.abspath(__file__))
-       + f"/resluts/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/results"
+       + f"/results/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/results"
     )
     logging.warning(f"Saving results in {results_path}, the file's name is _temp_{temp}_O2_{x_O2_str}_NH3_{x_NH3_str}.csv")
     flux_path = (
         os.path.dirname(os.path.abspath(__file__))
-        + f"/resluts/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/flux_diagrams"
+        + f"/results/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/flux_diagrams"
     )
     # create species folder for species pictures if it does not already exist
     try:

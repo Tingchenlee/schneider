@@ -213,7 +213,7 @@ def run_reactor(
 
     # set initial temps, pressures, concentrations
     temp = settings[array_i][0]  # kelvin
-    temp_str = str(temp)[0:11]
+    temp_str = str(temp)[0:22]
     
     surf_temp = settings[array_i][1]
     surf_temp_str = str(surf_temp)[0:10]
@@ -264,13 +264,13 @@ def run_reactor(
     exhaust = ct.Reservoir(gas)
 
     # Reactor volume
-    rvol = 1e-4 # 0.00014711#1.4711 #m3
+    rvol = 1e-6 # 0.00014711#1.4711 #m3
 
     # Catalyst Surface Area
     site_density = (
         surf.site_density * 1000
     )  # [mol/m^2]cantera uses kmol/m^2, convert to mol/m^2
-    cat_area = 1e1#100*0.00065461 #6.5461  #1.387*1.5023*3.1416=6.5461[m^3] 
+    cat_area = 1e-3#100*0.00065461 #6.5461  #1.387*1.5023*3.1416=6.5461[m^3] 
     
     # reactor initialization
     if reactor_type == 0:
@@ -320,17 +320,17 @@ def run_reactor(
     cat_area_str = "%s" % "%.3g" % cat_area
     species_path = (
         os.path.dirname(os.path.abspath(__file__))
-        + f"/resluts/Pt111/temp/{git_file_string}/species_pictures"
+        + f"/results/Pt111/temp/{git_file_string}/species_pictures"
     )
     print(species_path)
     results_path = (
         os.path.dirname(os.path.abspath(__file__))
-       + f"/resluts/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/results"
+       + f"/results/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/results"
     )
     logging.warning(f"Saving results in {results_path}, the file's name is _temp_{temp}_O2_{x_O2_str}_NH3_{x_NH3_str}.csv")
     flux_path = (
         os.path.dirname(os.path.abspath(__file__))
-        + f"/resluts/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/flux_diagrams"
+        + f"/results/Pt111/temp/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/flux_diagrams"
     )
     # create species folder for species pictures if it does not already exist
     try:
@@ -451,7 +451,7 @@ def run_reactor(
         )
 
     t = 0.0
-    dt = 0.1
+    dt = 100
     iter_ct = 0
     # run the simulation
     first_run = True
@@ -564,12 +564,12 @@ Temps = [300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,
 Pressures = [1] # 1 bar
 volume_flows = [1.6666666666667E-7] #10 ml/min = 1.6666666666667E-7 m^3/s
 
-O2_fraction = [0.2] #O2 partial pressure(atm)
-NH3_fraction = [0.01]
+O2_fraction = [0.02] #O2 partial pressure(atm)
+NH3_fraction = [0.001]
 H2O_fraction = [0.05]
 
 # reaction time
-reactime = 1e3
+reactime = 1e7
 
 # sensitivity settings
 sensitivity = False
