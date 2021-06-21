@@ -12,7 +12,7 @@
 #SBATCH --mail-type=FAIL,END
 
 #an array for the job.
-#SBATCH --array=1-22
+#SBATCH --array=1-43
 
 
 ####################################################

@@ -270,7 +270,7 @@ def run_reactor(
     site_density = (
         surf.site_density * 1000
     )  # [mol/m^2]cantera uses kmol/m^2, convert to mol/m^2
-    cat_area = 1e-3#100*0.00065461 #6.5461  #1.387*1.5023*3.1416=6.5461[m^3] 
+    cat_area = 1e-2#100*0.00065461 #6.5461  #1.387*1.5023*3.1416=6.5461[m^3] 
     
     # reactor initialization
     if reactor_type == 0:
@@ -559,8 +559,8 @@ git_repo = "../../ammonia/"
 cti_file = git_repo + "base/cantera/chem_annotated.cti"
 
 # Reactor settings arrays for run
-#Temps = [400, 500, 600,700,800,900,1000,1100,1200,1300,1400,1500]
-Temps = [300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400]
+Temps = np.linspace(400,1500,44)
+#Temps = [300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400]
 Pressures = [1] # 1 bar
 volume_flows = [1.6666666666667E-7] #10 ml/min = 1.6666666666667E-7 m^3/s
 
@@ -569,7 +569,7 @@ NH3_fraction = [0.001]
 H2O_fraction = [0.05]
 
 # reaction time
-reactime = 1e7
+reactime = 1e6
 
 # sensitivity settings
 sensitivity = False
