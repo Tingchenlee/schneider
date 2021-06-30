@@ -8,11 +8,9 @@
 #SBATCH --output=logs/schneider.%a.log
 #SBATCH --error=logs/schneider.%a.slurm.log
 #SBATCH --partition=short
-#SBATCH --mail-user=lee.ting@northeastern.edu
-#SBATCH --mail-type=FAIL,END
 
 #an array for the job.
-#SBATCH --array=1-99
+#SBATCH --array=1-299
 
 
 ####################################################

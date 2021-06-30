@@ -25,7 +25,7 @@ def save_pictures(git_path="", species_path="", overwrite=False):
     Unless you set overwrite=True, it'll leave alone files that are
     already there.
     """
-    dictionary_filename = git_path + "/base/chemkin/species_dictionary.txt"
+    dictionary_filename = git_path + "/chemkin/species_dictionary.txt"
     specs = Database().get_species(dictionary_filename, resonance=False)
 
     images_dir = os.path.join(species_path)
@@ -112,7 +112,7 @@ def show_flux_diagrams(self, suffix="", embed=False):
     """
     import IPython
 
-    for element in "CHON":
+    for element in "CHONX":
         for phase_object in (self.gas, self.surf):
             phase = phase_object.name
             img_file = (
@@ -137,7 +137,7 @@ def save_flux_diagrams(*phases, suffix="", timepoint="", species_path=""):
     Saves the flux diagrams. The filenames have a suffix if provided,
     so you can keep them separate and not over-write.
     """
-    for element in "CHON":
+    for element in "CHONX":
         for phase_object in phases:
             phase = phase_object.name
 
@@ -213,7 +213,7 @@ def run_reactor(
 
     # set initial temps, pressures, concentrations
     temp = settings[array_i][0]  # kelvin
-    temp_str = str(temp)[0:100]
+    temp_str = str(temp)[0:300]
     
     surf_temp = settings[array_i][1]
     surf_temp_str = str(surf_temp)[0:10]
@@ -221,10 +221,10 @@ def run_reactor(
     pressure = settings[array_i][2] * ct.one_atm  # Pascals
 
     X_o2 = settings[array_i][4]
-    x_O2_str = str(X_o2)[0:10].replace(".", "_")
+    x_O2_str = str(X_o2)[0:200].replace(".", "_")
     
     X_nh3 = (settings[array_i][5])
-    x_NH3_str = str(X_nh3)[0:10].replace(".", "_")
+    x_NH3_str = str(X_nh3)[0:200].replace(".", "_")
     
     X_h2o = (settings[array_i][6])
     x_H2O_str = str(X_h2o)[0:10].replace(".", "_")
@@ -289,7 +289,7 @@ def run_reactor(
     # calculate the available catalyst area in a differential reactor
     rsurf = ct.ReactorSurface(surf, r, A=cat_area)
     r.volume = rvol
-    surf.coverages = "X(1):1.0"
+    surf.coverages = "X(1):1"
 
     # flow controllers
     one_atm = ct.one_atm
@@ -309,7 +309,7 @@ def run_reactor(
     sim = ct.ReactorNet([r])
 
     # set relative and absolute tolerances on the simulation
-    sim.rtol = 1.0e-11
+    sim.rtol = 1.0e-12
     sim.atol = 1.0e-22
     #################################################
     # Run single reactor
@@ -325,12 +325,12 @@ def run_reactor(
     print(species_path)
     results_path = (
         os.path.dirname(os.path.abspath(__file__))
-       + f"/results/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/results"
+       + f"/results/{git_file_string}/{reactor_type_str}/energy_{energy}/results"
     )
     logging.warning(f"Saving results in {results_path}, the file's name is _temp_{temp}_O2_{x_O2_str}_NH3_{x_NH3_str}.csv")
     flux_path = (
         os.path.dirname(os.path.abspath(__file__))
-        + f"/results/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/flux_diagrams"
+        + f"/results/{git_file_string}/{reactor_type_str}/flux_diagrams"
     )
     # create species folder for species pictures if it does not already exist
     try:
@@ -451,7 +451,7 @@ def run_reactor(
         )
 
     t = 0.0
-    dt = 1e4
+    dt = 1e6
     iter_ct = 0
     # run the simulation
     first_run = True
@@ -555,21 +555,23 @@ def run_reactor(
 #######################################################################
 
 # filepath for writing files
+# git_repo = "../../../Pt111/"
+# cti_file = git_repo + "cantera/chem_annotated.cti"
+
 git_repo = "../../../ammonia/"
 cti_file = git_repo + "base/cantera/chem_annotated.cti"
-
 # Reactor settings arrays for run
-Temps = np.linspace(400,1300,100)
+#Temps = np.linspace(400,1600,200)
 #Temps = [300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400]
+Temps = [700]
 Pressures = [1] # 1 bar
-volume_flows = [6e-5] #10 ml/min = 1.6666666666667E-7 m^3/s
-
-O2_fraction = [0.02] #O2 partial pressure(atm)
-NH3_fraction = [0.001]
-H2O_fraction = [0.05]
+volume_flows = [1.67e-9] #10 ml/min = 1.6666666666667E-7 m^3/s  #5e-6
+O2_fraction = np.linspace(0.1,0.88,200)
+NH3_fraction = [0.066]
+H2O_fraction = [0.0]
 
 # reaction time
-reactime = 1e8
+reactime = 1e9
 
 # sensitivity settings
 sensitivity = False

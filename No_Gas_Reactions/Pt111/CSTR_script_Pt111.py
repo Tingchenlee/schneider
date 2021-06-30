@@ -213,13 +213,16 @@ def run_reactor(
 
     # set initial temps, pressures, concentrations
     temp = settings[array_i][0]  # kelvin
-    temp_str = str(temp)[0:100]
+    temp_str = str(temp)[0:200]
     
     surf_temp = settings[array_i][1]
     surf_temp_str = str(surf_temp)[0:10]
     
     pressure = settings[array_i][2] * ct.one_atm  # Pascals
-
+    
+    volume_flow = settings[array_i][3]  # [m^3/s]
+    volume_flow_str = str(volume_flow)[0:200].replace(".", "_")
+    
     X_o2 = settings[array_i][4]
     x_O2_str = str(X_o2)[0:10].replace(".", "_")
     
@@ -270,7 +273,7 @@ def run_reactor(
     site_density = (
         surf.site_density * 1000
     )  # [mol/m^2]cantera uses kmol/m^2, convert to mol/m^2
-    cat_area = 1e-2#100*0.00065461 #6.5461  #1.387*1.5023*3.1416=6.5461[m^3] 
+    cat_area = 1#1e-2#100*0.00065461 #6.5461  #1.387*1.5023*3.1416=6.5461[m^3] 
     
     # reactor initialization
     if reactor_type == 0:
@@ -289,12 +292,11 @@ def run_reactor(
     # calculate the available catalyst area in a differential reactor
     rsurf = ct.ReactorSurface(surf, r, A=cat_area)
     r.volume = rvol
-    surf.coverages = "X(1):1.0"
+    surf.coverages = "X(1):1"
 
     # flow controllers
     one_atm = ct.one_atm
     FC_temp = 293.15
-    volume_flow = settings[array_i][3]  # [m^3/s]
     molar_flow = volume_flow * one_atm / (8.3145 * FC_temp)  # [mol/s]
     mass_flow = molar_flow * (X_nh3 * mw_nh3 + X_o2 * mw_o2 + X_h2o * mw_h2o+ X_he * mw_he)  # [kg/s]
     mfc = ct.MassFlowController(inlet, r, mdot=mass_flow)
@@ -309,7 +311,7 @@ def run_reactor(
     sim = ct.ReactorNet([r])
 
     # set relative and absolute tolerances on the simulation
-    sim.rtol = 1.0e-11
+    sim.rtol = 1.0e-12
     sim.atol = 1.0e-22
     #################################################
     # Run single reactor
@@ -327,11 +329,12 @@ def run_reactor(
         os.path.dirname(os.path.abspath(__file__))
        + f"/results/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/results"
     )
-    logging.warning(f"Saving results in {results_path}, the file's name is _temp_{temp}_O2_{x_O2_str}_NH3_{x_NH3_str}.csv")
+    logging.warning(f"Saving results in {results_path}, the file's name is _temp_{temp}.csv")
     flux_path = (
         os.path.dirname(os.path.abspath(__file__))
         + f"/results/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/flux_diagrams"
     )
+
     # create species folder for species pictures if it does not already exist
     try:
         os.makedirs(species_path, exist_ok=True)
@@ -361,8 +364,9 @@ def run_reactor(
     output_filename = (
         results_path
         + f"/Spinning_basket_area_{cat_area_str}_energy_{energy}"
-        + f"_temp_{temp}_O2_{x_O2_str}_NH3_{x_NH3_str}.csv"
+        + f"_temp_{temp}.csv"
     )
+
 
     outfile = open(output_filename, "w")
     writer = csv.writer(outfile)
@@ -555,15 +559,17 @@ def run_reactor(
 #######################################################################
 
 # filepath for writing files
+# git_repo = "../../../Pt111/"
+# cti_file = git_repo + "cantera/chem_annotated.cti"
+
 git_repo = "../../../Pt111/"
 cti_file = git_repo + "cantera/chem_annotated.cti"
-
 # Reactor settings arrays for run
-Temps = np.linspace(400,1300,100)
+Temps = np.linspace(400,1600,200)
 #Temps = [300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400]
 Pressures = [1] # 1 bar
-volume_flows = [6e-5] #10 ml/min = 1.6666666666667E-7 m^3/s
-
+#volume_flows = np.logspace(-11,2,200) #10 ml/min = 1.6666666666667E-7 m^3/s  #5e-6
+volume_flows = [5e-8]
 O2_fraction = [0.02] #O2 partial pressure(atm)
 NH3_fraction = [0.001]
 H2O_fraction = [0.05]

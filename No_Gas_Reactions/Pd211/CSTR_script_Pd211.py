@@ -213,7 +213,7 @@ def run_reactor(
 
     # set initial temps, pressures, concentrations
     temp = settings[array_i][0]  # kelvin
-    temp_str = str(temp)[0:100]
+    temp_str = str(temp)[0:300]
     
     surf_temp = settings[array_i][1]
     surf_temp_str = str(surf_temp)[0:10]
@@ -293,7 +293,7 @@ def run_reactor(
 
     # flow controllers
     one_atm = ct.one_atm
-    FC_temp = 293.15
+    FC_temp = 298.15
     volume_flow = settings[array_i][3]  # [m^3/s]
     molar_flow = volume_flow * one_atm / (8.3145 * FC_temp)  # [mol/s]
     mass_flow = molar_flow * (X_nh3 * mw_nh3 + X_o2 * mw_o2 + X_h2o * mw_h2o+ X_he * mw_he)  # [kg/s]
@@ -325,12 +325,12 @@ def run_reactor(
     print(species_path)
     results_path = (
         os.path.dirname(os.path.abspath(__file__))
-       + f"/results/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/results"
+       + f"/results/{git_file_string}/{reactor_type_str}/results"
     )
-    logging.warning(f"Saving results in {results_path}, the file's name is _temp_{temp}_O2_{x_O2_str}_NH3_{x_NH3_str}.csv")
+    logging.warning(f"Saving results in {results_path}, the file's name is _temp_{temp}.csv")
     flux_path = (
         os.path.dirname(os.path.abspath(__file__))
-        + f"/results/{git_file_string}/{reactor_type_str}/energy_{energy}/sensitivity_{sensitivity_str}/flux_diagrams"
+        + f"/results/{git_file_string}/{reactor_type_str}/flux_diagrams"
     )
     # create species folder for species pictures if it does not already exist
     try:
@@ -361,7 +361,7 @@ def run_reactor(
     output_filename = (
         results_path
         + f"/Spinning_basket_area_{cat_area_str}_energy_{energy}"
-        + f"_temp_{temp}_O2_{x_O2_str}_NH3_{x_NH3_str}.csv"
+        + f"_temp_{temp}.csv"
     )
 
     outfile = open(output_filename, "w")
@@ -451,7 +451,7 @@ def run_reactor(
         )
 
     t = 0.0
-    dt = 1e4
+    dt = 1e10
     iter_ct = 0
     # run the simulation
     first_run = True
@@ -559,17 +559,17 @@ git_repo = "../../../Pd211/"
 cti_file = git_repo + "cantera/chem_annotated.cti"
 
 # Reactor settings arrays for run
-Temps = np.linspace(400,1300,100)
+Temps = np.linspace(300,1600,300)
 #Temps = [300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1050,1100,1150,1200,1250,1300,1350,1400]
 Pressures = [1] # 1 bar
-volume_flows = [1e-4] #10 ml/min = 1.6666666666667E-7 m^3/s
+volume_flows = [1.67e-7] #10 ml/min = 1.6666666666667E-7 m^3/s
 
 O2_fraction = [0.02] #O2 partial pressure(atm)
 NH3_fraction = [0.001]
 H2O_fraction = [0.05]
 
 # reaction time
-reactime = 1e8
+reactime = 1e13
 
 # sensitivity settings
 sensitivity = False
